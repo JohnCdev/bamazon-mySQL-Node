@@ -16,6 +16,7 @@ dbConnection.connect(function (err) {
 });
 
 function userPrompt() {
+    printProducts()
     inq.prompt([
         {
             name: "selection",
@@ -37,3 +38,5 @@ function userPrompt() {
             }
         });
 }
+
+printProducts()
