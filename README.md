@@ -41,6 +41,31 @@ Options
 
 ![customer](/RM_images/manSelect.PNG)
 
+View Products
 
+![customer](/RM_images/manView.PNG)
 
+View Low Stock
 
+![customer](/RM_images/manLow.PNG)
+
+Add to Stock
+
+![customer](/RM_images/manStock.PNG)
+
+Add New Product
+
+![customer](/RM_images/manAdd.PNG)
+
+### bamazonSupervisor.js
+Options
+
+![customer](/RM_images/supSelect.PNG)
+
+View Sales
+
+![customer](/RM_images/supSales.PNG)
+
+Add Department
+
+![customer](/RM_images/supAdd.PNG)
