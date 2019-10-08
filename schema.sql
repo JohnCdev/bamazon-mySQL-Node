@@ -46,10 +46,10 @@ VALUES ("Medicine","Health",8,100,80);
 
 #department seed
 INSERT INTO departments (department_name, over_head_costs)
-VALUES ("Electronics",30);
+VALUES ("Electronics",1000);
 INSERT INTO departments (department_name, over_head_costs)
-VALUES ("Groceries",1);
+VALUES ("Groceries",500);
 INSERT INTO departments (department_name, over_head_costs)
-VALUES ("Apparel",10);
+VALUES ("Apparel",200);
 INSERT INTO departments (department_name, over_head_costs)
-VALUES ("Health",2);
+VALUES ("Health",100);
