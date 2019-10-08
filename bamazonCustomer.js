@@ -1,5 +1,6 @@
 const mysql = require('mysql')
 const inq = require('inquirer')
+var Table = require('cli-table')
 
 const dbConnection = mysql.createConnection({
     host: "localhost",
@@ -9,14 +10,14 @@ const dbConnection = mysql.createConnection({
     database: "bamazon"
 });
 
-dbConnection.connect(function (err) {
+dbConnection.connect(err => {
     if (err) throw err
     console.log("Connected as id: " + dbConnection.threadId)
     userPrompt()
 });
 
 function userPrompt() {
-    dbConnection.query("SELECT * FROM products", function (err, res) {
+    dbConnection.query("SELECT * FROM products", (err, res) => {
         if (err) throw err;
         printProductsTable(res);
         inq.prompt([
@@ -38,10 +39,9 @@ function userPrompt() {
 function checkStock(ans) {
     const id = ans.id
     const quant = ans.quantity
-    dbConnection.query("SELECT * FROM products WHERE item_id=?",[id], function (err, res) {
+    dbConnection.query("SELECT * FROM products WHERE item_id=?",[id], (err, res) => {
         if (err) throw err
-        printProductsTable(res)
-        if (quant < res[0].stock_quantity) {
+        if (quant <= res[0].stock_quantity) {
             const newQuant = res[0].stock_quantity - quant
             const price = quant * res[0].price
             console.log("Total price of purchase is $" + price)
@@ -55,19 +55,24 @@ function checkStock(ans) {
 
 function updateStock(id, newQuant) {
     //quantity not updating
-    dbConnection.query("UPDATE products SET stock_quantity=? WHERE item_id=?",[newQuant, id],function(err, res) {
+    dbConnection.query("UPDATE products SET stock_quantity=? WHERE item_id=?",[newQuant, id], (err, res) => {
         if (err) throw err
         console.log("Updated stock quantity of ID " + id + " to " + newQuant)
         dbConnection.end(); 
-    })
+    });
 }
 
 function printProductsTable(res) {
-    console.log("Product Log")
-    console.log(`================`)
-    // console.log(`Product ID | Product Name | Price`)
+    let table = new Table({
+        head: ['ID', 'Name']
+      , colWidths: [10, 100]
+    });
+
     res.forEach(e => {
-        console.log(`${e.item_id}  ${e.product_name}  $${e.price}`)
-    })
+        table.push([e.item_id, e.product_name])
+    });
+
+    console.log("Product Log")
+    console.log(table.toString())
     console.log(`================`)
 }
