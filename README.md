@@ -68,4 +68,4 @@ View Sales
 
 Add Department
 
-![customer](/RM_images/supAdd.PNG)
+![customer](/RM_images/supAddNew2.PNG)
