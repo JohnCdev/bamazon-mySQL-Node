@@ -1,5 +1,6 @@
 const mysql = require('mysql')
 const inq = require('inquirer')
+var Table = require('cli-table')
 
 const dbConnection = mysql.createConnection({
     host: "localhost",
@@ -32,10 +33,13 @@ function managerPrompt() {
                     return viewLow();
                 case "Add to Inventory":
                     return addInventory();
-                case "Add to Inventory":
+                case "Add New Product":
                     return addNewProduct();
+                case "Exit":
+                    return dbConnection.end();
                 default:
                     console.log("you dun goofed");
+                    dbConnection.end();
             }
         });
 };
@@ -44,27 +48,78 @@ function viewProducts() {
     dbConnection.query("SELECT * FROM products", (err, res) => {
         if (err) throw err
         printProductsTable(res)
-        dbConnection.end();
+        managerPrompt()
     })
 }
 
 function viewLow() {
-
+    dbConnection.query("SELECT * FROM products WHERE stock_quantity <= 500", (err, res) => {
+        if (err) throw err
+        console.log("\n\nShowing products with less than 500 units in stock.")
+        printProductsTable(res)
+        managerPrompt()
+    })
 }
 
 function addInventory() {
+    inq.prompt([
+        {
+            name: "id",
+            message: "Product ID to update stock:",
+        },
+        {
+            name: "amt",
+            message: "Amount to update:"
+        }
+    ])
+        .then(ans => {
+            dbConnection.query("UPDATE products SET stock_quantity=stock_quantity + ? WHERE item_id=?", [ans.amt, ans.id], (err, res) => {
+                if (err) throw err
+                console.log(`Updated product ID ${ans.id} stock quantity by ${ans.amt} units.`)
+                managerPrompt()
+            })
+        });
 
 }
 
 function addNewProduct() {
-
+    inq.prompt([
+        {
+            name: "name",
+            message: "Product name:"
+        },
+        {
+            name: "dep",
+            message: "Department:"
+        },
+        {
+            name: "price",
+            message: "Unit price:"
+        },
+        {
+            name: "quant",
+            message: "Initial quantity:"
+        }
+    ])
+        .then(ans => {
+            dbConnection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES(?, ?, ?, ?)", [ans.name, ans.dep, ans.price, ans.quant], (err, res) => {
+                if (err) throw err
+                console.log(ans.name + " added to products.")
+                managerPrompt()
+            })
+        });
 }
 
 function printProductsTable(res) {
-    console.log("Product Log")
-    console.log(`================`)
+    let table = new Table({
+        head: ['ID', 'Name', 'Unit Price', 'Stock Quantity']
+        , colWidths: [10, 30, 15, 20]
+    });
+
     res.forEach(e => {
-        console.log(`${e.item_id}  ${e.product_name}  $${e.price}  ${e.stock_quantity}`)
-    })
+        table.push([e.item_id, e.product_name, "$" + e.price, e.stock_quantity])
+    });
+
+    console.log(table.toString())
     console.log(`================`)
 }

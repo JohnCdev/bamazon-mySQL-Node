@@ -23,25 +23,25 @@ CREATE TABLE departments (
 
 #products seed
 INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
-VALUES ("Video Game","Electronics",60,1000,100);
+VALUES ("Video Game","Electronics",60,1000,6000);
 INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
-VALUES ("TV","Electronics",500,100,10);
+VALUES ("TV","Electronics",500,100,10000);
 INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
 VALUES ("Nintendos","Electronics",200,10000,5000);
 INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
 VALUES ("Soda","Groceries",6,5000,1000);
 INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
-VALUES ("Pasta","Groceries",4,2000,250);
+VALUES ("Pasta","Groceries",4,2000,480);
 INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
-VALUES ("Pudding","Groceries",2,750,100);
+VALUES ("Pudding","Groceries",2,750,200);
 INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
-VALUES ("Shirt","Apparel",60,1000,100);
+VALUES ("Shirt","Apparel",60,1000,600);
 INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
-VALUES ("Watch","Apparel",80,50,5);
+VALUES ("Watch","Apparel",80,50,800);
 INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
-VALUES ("Pants","Apparel",40,200,150);
+VALUES ("Pants","Apparel",40,200,180);
 INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales)
-VALUES ("Medicine","Health",8,100,15);
+VALUES ("Medicine","Health",8,100,80);
 
 
 #department seed

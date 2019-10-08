@@ -39,13 +39,13 @@ function userPrompt() {
 function checkStock(ans) {
     const id = ans.id
     const quant = ans.quantity
-    dbConnection.query("SELECT * FROM products WHERE item_id=?",[id], (err, res) => {
+    dbConnection.query("SELECT * FROM products WHERE item_id=?", [id], (err, res) => {
         if (err) throw err
         if (quant <= res[0].stock_quantity) {
             const newQuant = res[0].stock_quantity - quant
             const price = quant * res[0].price
             console.log("Total price of purchase is $" + price)
-            updateStock(id, newQuant)
+            updateStock(id, price, newQuant)
         } else {
             console.log("Not enough product in stock to complete your request, aborting")
             dbConnection.end();
@@ -53,23 +53,23 @@ function checkStock(ans) {
     });
 }
 
-function updateStock(id, newQuant) {
+function updateStock(id, price, newQuant) {
     //quantity not updating
-    dbConnection.query("UPDATE products SET stock_quantity=? WHERE item_id=?",[newQuant, id], (err, res) => {
+    dbConnection.query("UPDATE products SET stock_quantity=?, product_sales=? WHERE item_id=?", [newQuant, price, id], (err, res) => {
         if (err) throw err
         console.log("Updated stock quantity of ID " + id + " to " + newQuant)
-        dbConnection.end(); 
+        dbConnection.end();
     });
 }
 
 function printProductsTable(res) {
     let table = new Table({
-        head: ['ID', 'Name']
-      , colWidths: [10, 100]
+        head: ['ID', 'Name', 'Unit Price']
+        , colWidths: [10, 30, 15]
     });
 
     res.forEach(e => {
-        table.push([e.item_id, e.product_name])
+        table.push([e.item_id, e.product_name, e.price])
     });
 
     console.log("Product Log")
