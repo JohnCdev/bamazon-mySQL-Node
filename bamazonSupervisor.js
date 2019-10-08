@@ -76,7 +76,6 @@ function addNewDepartment() {
         .then(ans => {
             dbConnection.query("INSERT INTO departments (department_name, over_head_costs) VALUES(?, ?)", [ans.name,ans.costs], (err, res) => {
                 if (err) throw err
-                console.log(res)
                 console.log("\n" + ans.name + " added to departments.\n")
                 supervisorPrompt()
             })
