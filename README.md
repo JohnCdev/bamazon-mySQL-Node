@@ -64,7 +64,7 @@ Options
 
 View Sales
 
-![customer](/RM_images/supSales.PNG)
+![customer](/RM_images/supSales2.PNG)
 
 Add Department
 
