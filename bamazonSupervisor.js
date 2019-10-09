@@ -42,7 +42,7 @@ function supervisorPrompt() {
 
 function viewSales() {
     console.log("\nSales by Department")
-    var query = "SELECT d.department_id, d.department_name, d.over_head_costs, SUM(p.product_sales) as sales, SUM(p.product_sales - d.over_head_costs) as total_profit ";
+    var query = "SELECT d.department_id, d.department_name, d.over_head_costs, SUM(p.product_sales) as sales, SUM(p.product_sales) - d.over_head_costs as total_profit ";
     query += "FROM products as p INNER JOIN departments as d ON d.department_name = p.department_name ";
     query += "GROUP BY d.department_id ORDER BY d.department_id";
     dbConnection.query(query, (err, res) => {
